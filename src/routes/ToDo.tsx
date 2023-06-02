@@ -32,6 +32,17 @@ function ToDo() {
         }
     };
 
+    const onFinish = (event: React.MouseEvent<HTMLInputElement>) => {
+        const { currentTarget: { dataset: { todoid } } } = event;
+        if (todoid) {
+            toDos.forEach(toDoObj => {
+                if (toDoObj.id === +todoid) {
+                    toDoObj.isCompleted = !toDoObj.isCompleted;
+                };
+            });
+        }
+    };
+
     useEffect(() => {
         notIncludeToken();
         const token = localStorage.getItem("access_token") ?? "";
@@ -46,18 +57,20 @@ function ToDo() {
         <>
             <input data-testid="new-todo-input" ref={toDoInput} onKeyDown={handleKeyDown} placeholder="toDos..." />
             <button data-testid="new-todo-add-button" onClick={addToDo} type="button">추가</button>
-            {toDos.map((toDoObject) => {
-                return (
-                    <li key={toDoObject.id}>
-                        <label>
-                            <input type="checkbox" />
-                            <span>{toDoObject.todo}</span>
-                            <button data-testid="modify-button">수정</button>
-                            <button data-testid="delete-button">삭제</button>
-                        </label>
-                    </li>
-                );
-            })}
+            <ul>
+                {toDos.map((toDoObject) => {
+                    return (
+                        <li key={toDoObject.id}>
+                            <label>
+                                <input type="checkbox" onClick={onFinish} data-todoid={toDoObject.id} />
+                                <span>{toDoObject.todo}</span>
+                                <button data-testid="modify-button">수정</button>
+                                <button data-testid="delete-button">삭제</button>
+                            </label>
+                        </li>
+                    );
+                })}
+            </ul>
         </>
     );
 };
