@@ -1,8 +1,7 @@
 const API_ADDRESS = "https://www.pre-onboarding-selection-task.shop";
 const API_ADDRESS_TODO = "todos";
-const API_PAREMS_TODO = "todos/:id";
 
-export const createToDo = async (todo: string, token: string) => {
+export const createToDoAPI = async (todo: string, token: string) => {
     const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}`, {
         method: "POST",
         headers: {
@@ -18,7 +17,7 @@ export const createToDo = async (todo: string, token: string) => {
     return responseData;
 };
 
-export const getToDos = async (token: string) => {
+export const getToDosAPI = async (token: string) => {
     const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}`, {
         headers: {
             "Authorization": `Bearer ${token}`
@@ -29,4 +28,18 @@ export const getToDos = async (token: string) => {
     }
     const responseData = await response.json();
     return responseData
+};
+
+export const deleteToDoAPI = async (token: string, toDoid: number) => {
+    const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}/${toDoid}`, {
+        method: "DELETE",
+        headers: {
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    if (!response.ok) {
+        throw new Error("toDo삭제 실패!");
+    }
+
+    return response;
 };
