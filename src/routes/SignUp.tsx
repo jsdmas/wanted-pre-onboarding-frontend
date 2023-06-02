@@ -9,7 +9,7 @@ import { useEffect } from "react";
 function SignUp() {
     const navigate = useNavigate();
     const { includeToken } = useTokenCheck();
-    useEffect(() => { includeToken() }, [includeToken]);
+    useEffect(() => { includeToken() }, []);
     const { isBlur, onBlur, onChange, disabled, errorsMessage, handleSubmit } = useForm({
         initalValues: { email: "", password: "" },
         onSubmit: (values: IinitalValues) => {

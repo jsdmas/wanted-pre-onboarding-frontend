@@ -1,22 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import useTokenCheck from "../hooks/useTokenCheck";
+import { createToDo, getToDos } from "../api/todoApi";
+
+interface IToDo {
+    id: number,
+    todo: string,
+    isCompleted: boolean,
+    userId: number
+};
 
 function ToDo() {
     const { notIncludeToken } = useTokenCheck();
     const toDoInput = useRef<HTMLInputElement>(null);
-    const [toDos, setToDos] = useState<{ id: number, todo: string }[]>(() => {
-        const myToDos = localStorage.getItem("myToDos");
-        return myToDos ? JSON.parse(myToDos) : [];
-    });
+    const [toDos, setToDos] = useState<IToDo[]>([]);
 
-    const addToDo = (event?: React.MouseEvent<HTMLButtonElement>) => {
+    const addToDo = async (event?: React.MouseEvent<HTMLButtonElement>) => {
         if (toDoInput.current) {
             const { current: { value } } = toDoInput;
-            const toDoId = new Date().getTime();
-            const newToDo = { id: toDoId, todo: value };
-            setToDos([...toDos, newToDo]);
+            const token = localStorage.getItem("access_token") ?? "";
+            const newToDo = await createToDo(value, token).catch(error => alert(error));
+            setToDos(prevToDos => [...prevToDos, newToDo]);
             toDoInput.current.value = "";
         }
+
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -28,19 +34,26 @@ function ToDo() {
 
     useEffect(() => {
         notIncludeToken();
-        localStorage.setItem("myToDos", JSON.stringify(toDos));
-    }, [notIncludeToken, toDos]);
+        const token = localStorage.getItem("access_token") ?? "";
+        const fetchToDos = async () => {
+            const myToDos = await getToDos(token).catch(error => alert(error));
+            setToDos(myToDos);
+        }
+        fetchToDos();
+    }, []);
 
     return (
         <>
             <input data-testid="new-todo-input" ref={toDoInput} onKeyDown={handleKeyDown} placeholder="toDos..." />
             <button data-testid="new-todo-add-button" onClick={addToDo} type="button">추가</button>
-            {toDos.map((toDoObject, index) => {
+            {toDos.map((toDoObject) => {
                 return (
-                    <li key={index}>
+                    <li key={toDoObject.id}>
                         <label>
                             <input type="checkbox" />
                             <span>{toDoObject.todo}</span>
+                            <button data-testid="modify-button">수정</button>
+                            <button data-testid="delete-button">삭제</button>
                         </label>
                     </li>
                 );

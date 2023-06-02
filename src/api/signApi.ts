@@ -12,6 +12,9 @@ export const signUpApi = async (values: IinitalValues) => {
         },
         body: JSON.stringify(values),
     });
+    if (!response.ok) {
+        throw new Error("회원가입 실패!");
+    }
     return response;
 };
 

@@ -9,20 +9,22 @@ import { useEffect } from "react";
 function Signin() {
     const navigate = useNavigate();
     const { includeToken } = useTokenCheck();
-    useEffect(() => { includeToken() }, [includeToken]);
+    useEffect(() => { includeToken() }, []);
     const { isBlur, onBlur, onChange, disabled, errorsMessage, handleSubmit } = useForm({
         initalValues: { email: "", password: "" },
         onSubmit: (values: IinitalValues) => {
-            signInApi(values).then((response) => {
-                if (Object.hasOwn(response, "access_token")) {
-                    for (const [key, value] of Object.entries(response)) {
-                        if (typeof value === "string") localStorage.setItem(key, value);
-                    };
-                    navigate("/todo");
-                } else {
-                    return alert("로그인 실패!");
-                }
-            });
+            signInApi(values)
+                .then((response) => {
+                    if (Object.hasOwn(response, "access_token")) {
+                        for (const [key, value] of Object.entries(response)) {
+                            if (typeof value === "string") localStorage.setItem(key, value);
+                        };
+                        navigate("/todo");
+                    } else {
+                        return alert("로그인 실패!");
+                    }
+                })
+                .catch(error => alert(error));
         }
     });
 
