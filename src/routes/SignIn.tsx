@@ -20,8 +20,6 @@ function Signin() {
                             if (typeof value === "string") localStorage.setItem(key, value);
                         };
                         navigate("/todo");
-                    } else {
-                        return alert("로그인 실패!");
                     }
                 })
                 .catch(error => alert(error));

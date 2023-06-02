@@ -19,12 +19,16 @@ export const signUpApi = async (values: IinitalValues) => {
 };
 
 export const signInApi = async (values: IinitalValues) => {
-    const response = await (await fetch(`${API_ADDRESS}/${API_SIGNIN_URL}`, {
+    const response = await fetch(`${API_ADDRESS}/${API_SIGNIN_URL}`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(values),
-    })).json();
-    return response;
+    });
+    if (!response.ok) {
+        throw new Error("로그인 실패!");
+    }
+    const responseData = await response.json();
+    return responseData;
 };

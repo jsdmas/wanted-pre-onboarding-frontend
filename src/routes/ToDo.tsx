@@ -41,6 +41,7 @@ function ToDo() {
                 };
             });
         }
+        console.log(toDos);
     };
 
     useEffect(() => {

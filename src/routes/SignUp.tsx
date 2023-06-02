@@ -14,13 +14,10 @@ function SignUp() {
         initalValues: { email: "", password: "" },
         onSubmit: (values: IinitalValues) => {
             signUpApi(values).then((response) => {
-                console.log(response);
                 if (response.status === 201) {
                     navigate("/signin");
-                } else {
-                    alert("회원가입 실패!");
                 }
-            });
+            }).catch(error => alert(error));
         }
     });
 
