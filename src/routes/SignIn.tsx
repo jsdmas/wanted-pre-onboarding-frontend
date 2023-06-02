@@ -1,12 +1,24 @@
-import useForm, { IinitalValues } from "../hooks/useForm";
+import { useNavigate } from "react-router-dom";
+import { signInApi } from "../api/signApi";
+import useForm from "../hooks/useForm";
 import { RegisterForm, Wrapper } from "../styles/register";
+import { IinitalValues } from "../types/user";
 
 function Signin() {
-    const { isBlur, onBlur, onChange, disabled, errors, handleSubmit } = useForm({
+    const navigate = useNavigate();
+    const { isBlur, onBlur, onChange, disabled, errorsMessage, handleSubmit } = useForm({
         initalValues: { email: "", password: "" },
         onSubmit: (values: IinitalValues) => {
-            console.log("hi");
-            console.log(values);
+            signInApi(values).then((response) => {
+                if (Object.hasOwn(response, "access_token")) {
+                    for (const [key, value] of Object.entries(response)) {
+                        if (typeof value === "string") localStorage.setItem(key, value);
+                    };
+                    navigate("/todo");
+                } else {
+                    return alert("로그인 실패!");
+                }
+            });
         }
     });
     return (
@@ -14,9 +26,9 @@ function Signin() {
             <h1>📝 sign In</h1>
             <RegisterForm onSubmit={handleSubmit}>
                 <input data-testid="email-input" name="email" onBlur={onBlur} onChange={onChange} placeholder="email" />
-                <span>{isBlur.email && errors.email ? errors.email : null}</span>
-                <input data-testid="password-input" name="password" onBlur={onBlur} onChange={onChange} placeholder="비밀번호는 8자 이상입니다." />
-                <span>{isBlur.password && errors.password ? errors.password : null}</span>
+                <span>{isBlur.email && errorsMessage.email ? errorsMessage.email : null}</span>
+                <input data-testid="password-input" name="password" onBlur={onBlur} onChange={onChange} placeholder="password" />
+                <span>{isBlur.password && errorsMessage.password ? errorsMessage.password : null}</span>
                 <button data-testid="signin-button" type="submit" disabled={disabled}>로그인</button>
             </RegisterForm>
         </Wrapper>

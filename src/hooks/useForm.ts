@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-
-export interface IinitalValues {
-    email: string,
-    password: string
-}
+import { IinitalValues } from "../types/user";
 
 interface IuseForm {
     initalValues: IinitalValues,
@@ -12,7 +8,7 @@ interface IuseForm {
 
 function useForm({ initalValues, onSubmit }: IuseForm) {
     const [values, setValues] = useState(initalValues);
-    const [errors, setErrors] = useState(initalValues);
+    const [errorsMessage, setErrorsMessage] = useState(initalValues);
     const [isBlur, setIsBlur] = useState<{ [key: string]: any }>({});
     const [disabled, setDisabled] = useState(true);
 
@@ -22,7 +18,7 @@ function useForm({ initalValues, onSubmit }: IuseForm) {
     };
 
     const vaildate = useCallback(() => {
-        const errors = initalValues;
+        const errors = { ...initalValues };
 
         if (!values.email.includes("@")) {
             setDisabled(true);
@@ -33,7 +29,9 @@ function useForm({ initalValues, onSubmit }: IuseForm) {
             errors.password = "비밀번호는 8자 이상 입력해주세요.";
         }
 
-        if (!Object.values(errors).some(value => value)) setDisabled(false);
+        if (!Object.values(errors).some(value => value)) {
+            setDisabled(false)
+        };
 
         return errors;
     }, [values]);
@@ -57,9 +55,9 @@ function useForm({ initalValues, onSubmit }: IuseForm) {
 
     useEffect(() => {
         const errors = vaildate();
-        setErrors(errors);
+        setErrorsMessage(errors);
     }, [values, vaildate]);
 
-    return { values, errors, isBlur, disabled, onBlur, onChange, handleSubmit };
+    return { values, errorsMessage, isBlur, disabled, onBlur, onChange, handleSubmit };
 };
 export default useForm;
