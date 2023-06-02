@@ -17,7 +17,7 @@ function Signin() {
                 <span>{isBlur.email && errors.email ? errors.email : null}</span>
                 <input data-testid="password-input" name="password" onBlur={onBlur} onChange={onChange} placeholder="비밀번호는 8자 이상입니다." />
                 <span>{isBlur.password && errors.password ? errors.password : null}</span>
-                <button data-testid="signup-button" type="submit" disabled={disabled}>회원가입</button>
+                <button data-testid="signin-button" type="submit" disabled={disabled}>로그인</button>
             </RegisterForm>
         </Wrapper>
     );
