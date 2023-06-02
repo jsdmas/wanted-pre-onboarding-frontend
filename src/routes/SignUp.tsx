@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SignUp() {
+    const navigate = useNavigate();
     const [values, setValues] = useState({ email: "", password: "" });
     const [errors, setErrors] = useState({ email: "", password: "" });
     const [isBlur, setIsBlur] = useState({ email: false, password: false });
@@ -9,6 +11,7 @@ function SignUp() {
 
     const onSubmit = (event: React.BaseSyntheticEvent) => {
         event.preventDefault();
+        navigate("/signin");
         alert(JSON.stringify(values));
     };
 
@@ -46,7 +49,6 @@ function SignUp() {
             [event.target.name]: event.target.value
         });
     };
-
 
     useEffect(() => {
         const errors = vaildate();

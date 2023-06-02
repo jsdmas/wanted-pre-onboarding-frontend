@@ -2,6 +2,7 @@
 function Signin() {
     return (
         <>
+            @@signInPage@@
         </>
     );
 };
