@@ -3,10 +3,13 @@ import { RegisterForm, Wrapper } from "../styles/register";
 import useForm from "../hooks/useForm";
 import { IinitalValues } from "../types/user";
 import { signUpApi } from "../api/signApi";
+import useTokenCheck from "../hooks/useTokenCheck";
+import { useEffect } from "react";
 
 function SignUp() {
     const navigate = useNavigate();
-
+    const { includeToken } = useTokenCheck();
+    useEffect(() => { includeToken() }, [includeToken]);
     const { isBlur, onBlur, onChange, disabled, errorsMessage, handleSubmit } = useForm({
         initalValues: { email: "", password: "" },
         onSubmit: (values: IinitalValues) => {
@@ -20,6 +23,7 @@ function SignUp() {
             });
         }
     });
+
 
     return (
         <Wrapper>
