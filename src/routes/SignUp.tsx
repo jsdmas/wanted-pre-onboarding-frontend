@@ -24,7 +24,6 @@ function SignUp() {
         }
     });
 
-
     return (
         <Wrapper>
             <h1>📄 Sign Up</h1>

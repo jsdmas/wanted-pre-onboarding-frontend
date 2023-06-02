@@ -12,7 +12,7 @@ function useForm({ initalValues, onSubmit }: IuseForm) {
     const [isBlur, setIsBlur] = useState<{ [key: string]: any }>({});
     const [disabled, setDisabled] = useState(true);
 
-    const handleSubmit = (event: React.BaseSyntheticEvent) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         onSubmit(values);
     };
