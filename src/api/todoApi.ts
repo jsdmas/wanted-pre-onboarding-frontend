@@ -30,16 +30,33 @@ export const getToDosAPI = async (token: string) => {
     return responseData
 };
 
-export const deleteToDoAPI = async (token: string, toDoid: number) => {
-    const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}/${toDoid}`, {
+export const deleteToDoAPI = async (token: string, toDoId: number) => {
+    const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}/${toDoId}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Bearer ${token}`
         }
-    })
+    });
     if (!response.ok) {
         throw new Error("toDo삭제 실패!");
     }
 
     return response;
+};
+
+export const updateToDoAPI = async (token: string, toDoId: number, todo: string, isCompleted: boolean) => {
+    console.log(todo, isCompleted);
+    const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}/${toDoId}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ todo, isCompleted: !isCompleted })
+    });
+    if (!response.ok) {
+        throw new Error("toDo update 실패!");
+    };
+    const responseData = await response.json();
+    return responseData;
 };

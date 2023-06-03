@@ -1,6 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import useTokenCheck from "../hooks/useTokenCheck";
-import { createToDoAPI, deleteToDoAPI, getToDosAPI } from "../api/todoApi";
+import { createToDoAPI, deleteToDoAPI, getToDosAPI, updateToDoAPI } from "../api/todoApi";
 
 interface IToDo {
     id: number,
@@ -22,7 +22,6 @@ function ToDo() {
             setToDos(prevToDos => [...prevToDos, newToDo]);
             toDoInput.current.value = "";
         }
-
     };
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -32,13 +31,10 @@ function ToDo() {
         }
     };
 
-    const onFinish = (todoId: number) => {
-        toDos.forEach(toDoObj => {
-            if (toDoObj.id === todoId) {
-                toDoObj.isCompleted = !toDoObj.isCompleted;
-            };
-        });
-        console.log(toDos);
+    const onFinish = async ({ id, todo, isCompleted }: IToDo) => {
+        const token = localStorage.getItem("access_token") ?? "";
+        const response = await updateToDoAPI(token, id, todo, isCompleted).catch(error => alert(error));
+        console.log(response);
     };
 
     const deleteToDo = async (todoId: number) => {
@@ -69,7 +65,7 @@ function ToDo() {
                     return (
                         <li key={toDoObject.id}>
                             <label>
-                                <input type="checkbox" onClick={() => onFinish(toDoObject.id)} />
+                                <input type="checkbox" onClick={() => onFinish(toDoObject)} defaultChecked={toDoObject.isCompleted} />
                                 <span>{toDoObject.todo}</span>
                                 <button data-testid="modify-button">수정</button>
                                 <button data-testid="delete-button" onClick={() => deleteToDo(toDoObject.id)}>삭제</button>
