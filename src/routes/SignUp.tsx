@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { RegisterForm, Wrapper } from "../styles/register";
 import useForm from "../hooks/useForm";
 import { IinitalValues } from "../types/user";
@@ -31,6 +31,7 @@ function SignUp() {
                 <span>{isBlur.password && errorsMessage.password ? errorsMessage.password : null}</span>
                 <button data-testid="signup-button" type="submit" disabled={disabled}>회원가입</button>
             </RegisterForm>
+            <Link to={"/signin"}>signinPage→</Link>
         </Wrapper>
     );
 };

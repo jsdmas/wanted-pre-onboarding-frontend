@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInApi } from "../api/signApi";
 import useForm from "../hooks/useForm";
 import { RegisterForm, Wrapper } from "../styles/register";
@@ -36,6 +36,7 @@ function Signin() {
                 <span>{isBlur.password && errorsMessage.password ? errorsMessage.password : null}</span>
                 <button data-testid="signin-button" type="submit" disabled={disabled}>로그인</button>
             </RegisterForm>
+            <Link to={"/signup"}>signupPage→</Link>
         </Wrapper>
     );
 };
