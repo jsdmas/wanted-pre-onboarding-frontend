@@ -24,8 +24,8 @@ function ToDo() {
         }
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === "Enter") {
+    const handleKeydown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === "Enter" && event.nativeEvent.isComposing) {
             addToDo();
             toDoInput.current?.focus();
         }
@@ -58,7 +58,7 @@ function ToDo() {
 
     return (
         <>
-            <input data-testid="new-todo-input" ref={toDoInput} onKeyDown={handleKeyDown} placeholder="toDos..." />
+            <input data-testid="new-todo-input" ref={toDoInput} onKeyDown={handleKeydown} placeholder="toDos..." />
             <button data-testid="new-todo-add-button" onClick={addToDo} type="button">추가</button>
             <ul>
                 {toDos.map((toDoObject) => {
