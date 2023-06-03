@@ -13,6 +13,7 @@ function ToDo() {
     const { notIncludeToken } = useTokenCheck();
     const toDoInput = useRef<HTMLInputElement>(null);
     const [toDos, setToDos] = useState<IToDo[]>([]);
+    const [edit, setEdit] = useState<null | number>(null);
 
     const addToDo = async (event?: React.MouseEvent<HTMLButtonElement>) => {
         if (toDoInput.current) {
@@ -33,7 +34,7 @@ function ToDo() {
 
     const onFinish = async ({ id, todo, isCompleted }: IToDo) => {
         const token = localStorage.getItem("access_token") ?? "";
-        const response = await updateToDoAPI(token, id, todo, isCompleted).catch(error => alert(error));
+        const response = await updateToDoAPI(token, id, todo, !isCompleted).catch(error => alert(error));
         console.log(response);
     };
 
@@ -44,6 +45,10 @@ function ToDo() {
         const deletedToDo = renewalToDos.findIndex(toDoObj => toDoObj.id === todoId);
         renewalToDos.splice(deletedToDo, 1);
         setToDos([...renewalToDos]);
+    };
+
+    const onEditBtnClick = (todoId: number) => {
+        setEdit(todoId);
     };
 
     useEffect(() => {
@@ -67,9 +72,19 @@ function ToDo() {
                             <label>
                                 <input type="checkbox" onClick={() => onFinish(toDoObject)} defaultChecked={toDoObject.isCompleted} />
                                 <span>{toDoObject.todo}</span>
-                                <button data-testid="modify-button">수정</button>
-                                <button data-testid="delete-button" onClick={() => deleteToDo(toDoObject.id)}>삭제</button>
                             </label>
+                            {edit !== toDoObject.id ? (
+                                <>
+                                    <button data-testid="modify-button" onClick={() => onEditBtnClick(toDoObject.id)}>수정</button>
+                                    <button data-testid="delete-button" onClick={() => deleteToDo(toDoObject.id)}>삭제</button>
+                                </>
+                            ) : null}
+                            {edit === toDoObject.id ? (
+                                <>
+                                    <button data-testid="submit-button">제출</button>
+                                    <button data-testid="cancel-button" onClick={() => setEdit(null)}>취소</button>
+                                </>
+                            ) : null}
                         </li>
                     );
                 })}

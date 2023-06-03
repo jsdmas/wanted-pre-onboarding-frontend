@@ -52,7 +52,7 @@ export const updateToDoAPI = async (token: string, toDoId: number, todo: string,
             "Authorization": `Bearer ${token}`,
             "Content-Type": "application/json"
         },
-        body: JSON.stringify({ todo, isCompleted: !isCompleted })
+        body: JSON.stringify({ todo, isCompleted })
     });
     if (!response.ok) {
         throw new Error("toDo update 실패!");
