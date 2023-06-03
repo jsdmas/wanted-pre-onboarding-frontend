@@ -11,5 +11,5 @@ npm start
 
 - 사용 라이브러리
   - styled-components, react-rotuer
-  - 언어 : typeSciprt
+  - 언어 : typeScript
   - 배포 : gh-pages
