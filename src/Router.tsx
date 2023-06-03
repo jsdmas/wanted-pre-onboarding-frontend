@@ -5,7 +5,7 @@ import ToDo from "./routes/ToDo";
 
 function Router() {
     return (
-        <BrowserRouter>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>
                 <Route element={<SignUp />} path="/signup" />
                 <Route element={<SignIn />} path="/signin" />
