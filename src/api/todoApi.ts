@@ -24,7 +24,7 @@ export const getToDosAPI = async (token: string) => {
         }
     });
     if (!response.ok) {
-        throw new Error("toDo데이터 가져오기 실패!");
+        throw new Error("toDo데이터 가져오기 실패! 로그인 먼저 해주세요!");
     }
     const responseData = await response.json();
     return responseData

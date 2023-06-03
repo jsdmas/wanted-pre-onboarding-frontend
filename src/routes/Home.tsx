@@ -2,6 +2,18 @@ import { Link } from "react-router-dom";
 import { Wrapper } from "../styles/register";
 import styled from "styled-components";
 
+function Home() {
+    return (
+        <Wrapper>
+            <h1>지원자 장진호 🥳</h1>
+            <span>기본 도메인 url : https://jsdmas.github.io/wanted-pre-onboarding-frontend/</span>
+            <MyLink to="signup">signup Page &rarr;</MyLink>
+            <MyLink to="signin">signup Page &rarr;</MyLink>
+            <MyLink to="todo">todo Page &rarr;</MyLink>
+        </Wrapper>
+    );
+};
+
 const MyLink = styled(Link)`
     text-decoration: none;
     margin: 10px auto;
@@ -14,16 +26,5 @@ const MyLink = styled(Link)`
         color: white;
     }
 `;
-
-function Home() {
-    return (
-        <Wrapper>
-            <h1>지원자 장진호</h1>
-            <MyLink to="signup">signup Page &rarr;</MyLink>
-            <MyLink to="signin">signup Page &rarr;</MyLink>
-            <MyLink to="todo">todo Page &rarr;</MyLink>
-        </Wrapper>
-    );
-};
 
 export default Home;
