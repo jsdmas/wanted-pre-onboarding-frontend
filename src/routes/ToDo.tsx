@@ -35,8 +35,12 @@ function ToDo() {
 
     const onFinish = async ({ id, todo, isCompleted }: IToDo) => {
         const token = localStorage.getItem("access_token") ?? "";
+        const renewalToDos = [...toDos];
         const response = await updateToDoAPI(token, id, todo, !isCompleted).catch(error => alert(error));
         console.log(response);
+        const replaceIndex = renewalToDos.findIndex(toDoObj => toDoObj.id === id);
+        renewalToDos.splice(replaceIndex, 1, response);
+        setToDos([...renewalToDos]);
     };
 
     const deleteToDo = async (todoId: number) => {
