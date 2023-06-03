@@ -45,7 +45,6 @@ export const deleteToDoAPI = async (token: string, toDoId: number) => {
 };
 
 export const updateToDoAPI = async (token: string, toDoId: number, todo: string, isCompleted: boolean) => {
-    console.log(todo, isCompleted);
     const response = await fetch(`${API_ADDRESS}/${API_ADDRESS_TODO}/${toDoId}`, {
         method: "PUT",
         headers: {
