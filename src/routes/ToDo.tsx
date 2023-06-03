@@ -14,6 +14,7 @@ function ToDo() {
     const toDoInput = useRef<HTMLInputElement>(null);
     const [toDos, setToDos] = useState<IToDo[]>([]);
     const [edit, setEdit] = useState<null | number>(null);
+    const editToDoValue = useRef<HTMLInputElement>(null);
 
     const addToDo = async (event?: React.MouseEvent<HTMLButtonElement>) => {
         if (toDoInput.current) {
@@ -40,15 +41,22 @@ function ToDo() {
 
     const deleteToDo = async (todoId: number) => {
         const token = localStorage.getItem("access_token") ?? "";
-        await deleteToDoAPI(token, todoId).catch(error => alert(error));
         const renewalToDos = [...toDos];
+        await deleteToDoAPI(token, todoId).catch(error => alert(error));
         const deletedToDo = renewalToDos.findIndex(toDoObj => toDoObj.id === todoId);
         renewalToDos.splice(deletedToDo, 1);
         setToDos([...renewalToDos]);
     };
 
-    const onEditBtnClick = (todoId: number) => {
-        setEdit(todoId);
+    const editToDo = async ({ id, todo, isCompleted }: IToDo) => {
+        const value = editToDoValue.current?.value ?? todo;
+        const token = localStorage.getItem("access_token") ?? "";
+        const renewalToDos = [...toDos];
+        const response = await updateToDoAPI(token, id, value, isCompleted).catch(error => alert(error));
+        const replaceIndex = renewalToDos.findIndex(toDoObj => toDoObj.id === id);
+        renewalToDos.splice(replaceIndex, 1, response);
+        setToDos([...renewalToDos]);
+        setEdit(null);
     };
 
     useEffect(() => {
@@ -71,17 +79,17 @@ function ToDo() {
                         <li key={toDoObject.id}>
                             <label>
                                 <input type="checkbox" onClick={() => onFinish(toDoObject)} defaultChecked={toDoObject.isCompleted} />
-                                <span>{toDoObject.todo}</span>
+                                {edit !== toDoObject.id ? <span>{toDoObject.todo}</span> : <input data-testid="modify-input" defaultValue={toDoObject.todo} ref={editToDoValue} />}
                             </label>
                             {edit !== toDoObject.id ? (
                                 <>
-                                    <button data-testid="modify-button" onClick={() => onEditBtnClick(toDoObject.id)}>수정</button>
+                                    <button data-testid="modify-button" onClick={() => setEdit(toDoObject.id)}>수정</button>
                                     <button data-testid="delete-button" onClick={() => deleteToDo(toDoObject.id)}>삭제</button>
                                 </>
                             ) : null}
                             {edit === toDoObject.id ? (
                                 <>
-                                    <button data-testid="submit-button">제출</button>
+                                    <button data-testid="submit-button" onClick={() => editToDo(toDoObject)}>제출</button>
                                     <button data-testid="cancel-button" onClick={() => setEdit(null)}>취소</button>
                                 </>
                             ) : null}
