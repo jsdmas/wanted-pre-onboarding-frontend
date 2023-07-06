@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const BASE_URL = 'https://www.pre-onboarding-selection-task.shop/';
 
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: BASE_URL,
   headers: { 'Content-Type': 'application/json' },
 });
