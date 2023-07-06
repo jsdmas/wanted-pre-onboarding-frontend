@@ -8,7 +8,7 @@ function Home() {
             <h1>지원자 장진호 🥳</h1>
             <span>기본 도메인 url : https://jsdmas.github.io/wanted-pre-onboarding-frontend/</span>
             <MyLink to="signup">signup Page &rarr;</MyLink>
-            <MyLink to="signin">signup Page &rarr;</MyLink>
+            <MyLink to="signin">signin Page &rarr;</MyLink>
             <MyLink to="todo">todo Page &rarr;</MyLink>
         </Wrapper>
     );

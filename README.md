@@ -6,10 +6,12 @@
 ```
 npm start
 ```
-- 배포링크 : [https://jsdmas.github.io/wanted-pre-onboarding-frontend/](https://jsdmas.github.io/wanted-pre-onboarding-frontend/)
 
+- 배포링크 : [https://jsdmas.github.io/wanted-pre-onboarding-frontend/](https://jsdmas.github.io/wanted-pre-onboarding-frontend/)
 
 - 사용 라이브러리
   - styled-components, react-rotuer
   - 언어 : typeSciprt
   - 배포 : gh-pages
+
+# 23.7.6 refactore

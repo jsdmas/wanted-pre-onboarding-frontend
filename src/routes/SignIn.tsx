@@ -4,12 +4,12 @@ import useForm from "../hooks/useForm";
 import { RegisterForm, Wrapper } from "../styles/register";
 import { IinitalValues } from "../types/user";
 import useTokenCheck from "../hooks/useTokenCheck";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 
 function Signin() {
     const navigate = useNavigate();
     const { includeToken } = useTokenCheck();
-    useEffect(() => { includeToken() }, []);
+    useLayoutEffect(() => { includeToken() }, []);
     const { isBlur, onBlur, onChange, disabled, errorsMessage, handleSubmit } = useForm({
         initalValues: { email: "", password: "" },
         onSubmit: (values: IinitalValues) => {
