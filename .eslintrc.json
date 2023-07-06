@@ -42,18 +42,17 @@
     "prettier/prettier": "error",
 
     "no-multiple-empty-lines": ["error", { "max": 1 }],
-    "eol-last": ["error", "always"], // 파일의 마지막에 줄바꿈을 넣을 것인가?
-    "comma-dangle": ["error", "always-multiline"], // 후행쉼표
-    "object-curly-spacing": ["error", "always"], // 중괄호 앞뒤의 공백 여부
-    "space-in-parens": ["error", "never"], // 소괄호 앞뒤의 공백 여부
-    "computed-property-spacing": ["error", "never"], // object의 key 부분에 공백 여부
-    "comma-spacing": ["error", { "before": false, "after": true }], // comma(,) 앞 뒤의 공백 여부
-    "quotes": ["error", "single"], // 홑따옴표 혹은 겹따옴표 사용 여부
-    "no-tabs": ["error", { "allowIndentationTabs": true }], // tab 사용 여부
-    "semi": ["error", "always"], // 세미콜론 사용 여부
-    "object-shorthand": "error", // es6에서 객체를 간편하게 사용하는 문법
+    "eol-last": ["error", "always"],
+    "comma-dangle": ["error", "always-multiline"],
+    "object-curly-spacing": ["error", "always"],
+    "space-in-parens": ["error", "never"],
+    "computed-property-spacing": ["error", "never"],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "quotes": ["error", "single"],
+    "no-tabs": ["error", { "allowIndentationTabs": true }],
+    "semi": ["error", "always"],
+    "object-shorthand": "error",
 
-    // blankline을 삽입하는 기준
     "padding-line-between-statements": [
       "error",
       { "blankLine": "always", "prev": "*", "next": "return" },
