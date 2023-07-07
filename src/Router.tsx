@@ -6,6 +6,7 @@ import Home from './routes/Home';
 import { getToken } from './utils/token';
 import { TOKEN_KEY } from './constants/auth';
 import { PATH } from './constants/path';
+import ToDoContextProvider from './contexts/TodoContext';
 
 function Router() {
   return (
@@ -28,12 +29,17 @@ export default Router;
 
 const PrivateRouter = () => {
   const token = getToken(TOKEN_KEY);
-  return <Outlet />;
+  return token ? (
+    <ToDoContextProvider>
+      <Outlet />
+    </ToDoContextProvider>
+  ) : (
+    <Navigate replace to={PATH.MAIN} />
+  );
 };
 
 const PublicRouter = () => {
   const token = getToken(TOKEN_KEY);
-  // replace : 뒤로가기 금지
   // navigate : redirect
   return token ? <Navigate to={PATH.TODO} replace /> : <Outlet />;
 };
